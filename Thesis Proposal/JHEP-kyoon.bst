@@ -461,11 +461,21 @@ FUNCTION {format.collaboration}
   if$
 }
 
-
 FUNCTION {format.btitle}
 { title empty$
     { "" }
     { "``\emph{" title * "}''" * }
+  if$
+}
+
+FUNCTION {format.journal.abbrev}
+{ journal "Physics Letters B" =
+	{ "Phys. Lett. B" }
+	{ journal "Journal of High Energy Physics" =
+		{ "J. High Energ. Phys." }
+		{ journal }
+	  if$
+	}
   if$
 }
 
@@ -778,9 +788,9 @@ FUNCTION {article}
         { format.date.paren.nomonth "year" output.check
           blank.sep
           format.eprint.paren output }
-        { journal empty$
+        { format.journal.abbrev empty$
             { format.eprint output }
-            { format.doi * "{" * journal emphasize before.all 'output.state := "journal" output.check
+            { format.doi * "{" * format.journal.abbrev emphasize before.all 'output.state := "journal" output.check
               blank.sep
               format.volume output
               blank.sep
